@@ -117,88 +117,85 @@
   </div>
 
   <script>
-    const amiiboListEl = document.getElementById('amiibo-list');
-    const modal = document.getElementById('modal');
-    const modalImage = document.getElementById('modal-image');
-    const modalName = document.getElementById('modal-name');
-    const modalSeries = document.getElementById('modal-series');
-    const modalGame = document.getElementById('modal-game');
-    const modalDescription = document.getElementById('modal-description');
-    const modalCloseBtn = modal.querySelector('.close-btn');
+const amiiboListEl = document.getElementById('amiibo-list');
+const modal = document.getElementById('modal');
+const modalImage = document.getElementById('modal-image');
+const modalName = document.getElementById('modal-name');
+const modalSeries = document.getElementById('modal-series');
+const modalGame = document.getElementById('modal-game');
+const modalDescription = document.getElementById('modal-description');
+const modalCloseBtn = modal.querySelector('.close-btn');
 
-    // Fetch your JSON data from your GitHub raw URL
-    fetch('https://tidybeats1.github.io/amiibotracker.github.io/web/games_info_compact.json')
+// Fetch your JSON data from GitHub Pages URL (with proper CORS)
+fetch('https://tidybeats1.github.io/amiibotracker.github.io/web/games_info_compact.json')
   .then(response => {
     if (!response.ok) throw new Error('Network response was not OK');
     return response.json();
   })
   .then(data => {
     console.log('Loaded data:', data);
-    // ...your existing logic here...
+
+    // Clear previous content (if any)
+    amiiboListEl.innerHTML = '';
+
+    // Loop over each amiibo object and create cards
+    data.forEach(amiibo => {
+      const card = document.createElement('div');
+      card.className = 'amiibo-card';
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-pressed', 'false');
+
+      card.innerHTML = `
+        <img src="${amiibo.image || ''}" alt="${amiibo.name} image" />
+        <div class="amiibo-name">${amiibo.name}</div>
+        <div class="amiibo-series">${amiibo.series || ''}</div>
+      `;
+
+      // Click event to open modal detail
+      card.addEventListener('click', () => openModal(amiibo));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openModal(amiibo);
+        }
+      });
+
+      amiiboListEl.appendChild(card);
+    });
   })
   .catch(error => {
     console.error('Fetch error:', error);
     amiiboListEl.innerHTML = '<p style="color:red;">Failed to load Amiibo data.</p>';
   });
 
-        // Show all amiibos
-        amiibos.forEach(amiibo => {
-          const card = document.createElement('div');
-          card.className = 'amiibo-card';
-          card.tabIndex = 0;
-          card.setAttribute('role', 'button');
-          card.setAttribute('aria-pressed', 'false');
+function openModal(amiibo) {
+  modalImage.src = amiibo.image || '';
+  modalImage.alt = `${amiibo.name} image`;
+  modalName.textContent = amiibo.name || 'Unknown Amiibo';
+  modalSeries.textContent = `Series: ${amiibo.series || 'Unknown'}`;
+  modalGame.textContent = `Game: ${amiibo.game || 'Unknown'}`;
+  modalDescription.textContent = amiibo.description || '';
+  modal.style.display = 'flex';
+}
 
-          card.innerHTML = `
-            <img src="${amiibo.image || ''}" alt="${amiibo.name} image" />
-            <div class="amiibo-name">${amiibo.name}</div>
-            <div class="amiibo-series">${amiibo.series || ''}</div>
-          `;
+modalCloseBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
 
-          // Click event to open modal detail
-          card.addEventListener('click', () => openModal(amiibo));
-          card.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              openModal(amiibo);
-            }
-          });
+// Close modal when clicking outside modal content
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+  }
+});
 
-          amiiboListEl.appendChild(card);
-        });
-      })
-      .catch(error => {
-        amiiboListEl.innerHTML = '<p style="color:red;">Failed to load Amiibo data.</p>';
-        console.error('Error loading JSON:', error);
-      });
-
-    function openModal(amiibo) {
-      modalImage.src = amiibo.image || '';
-      modalImage.alt = `${amiibo.name} image`;
-      modalName.textContent = amiibo.name || 'Unknown Amiibo';
-      modalSeries.textContent = `Series: ${amiibo.series || 'Unknown'}`;
-      modalGame.textContent = `Game: ${amiibo.game || 'Unknown'}`;
-      modalDescription.textContent = amiibo.description || '';
-      modal.style.display = 'flex';
-    }
-
-    modalCloseBtn.addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
-
-    // Close modal when clicking outside modal content
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-
-    // Close modal on ESC key press
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.style.display === 'flex') {
-        modal.style.display = 'none';
-      }
-    });
+// Close modal on ESC key press
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal.style.display === 'flex') {
+    modal.style.display = 'none';
+  }
+});
   </script>
 </body>
 </html>
