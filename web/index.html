@@ -127,13 +127,19 @@
     const modalCloseBtn = modal.querySelector('.close-btn');
 
     // Fetch your JSON data from your GitHub raw URL
-    fetch('https://raw.githubusercontent.com/TIDYBEATS1/amiibotracker.github.io/main/web/games_info_compact.json')
-      .then(response => response.json())
-      .then(data => {
-        // data is an object, looks like this? Let's check
-        // if your JSON structure has top-level keys, adjust below accordingly
-        // For now, assume data is an array of amiibo objects directly
-        let amiibos = Array.isArray(data) ? data : Object.values(data);
+    fetch('https://tidybeats1.github.io/amiibotracker.github.io/web/games_info_compact.json')
+  .then(response => {
+    if (!response.ok) throw new Error('Network response was not OK');
+    return response.json();
+  })
+  .then(data => {
+    console.log('Loaded data:', data);
+    // ...your existing logic here...
+  })
+  .catch(error => {
+    console.error('Fetch error:', error);
+    amiiboListEl.innerHTML = '<p style="color:red;">Failed to load Amiibo data.</p>';
+  });
 
         // Show all amiibos
         amiibos.forEach(amiibo => {
