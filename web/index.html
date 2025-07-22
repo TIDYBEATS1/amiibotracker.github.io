@@ -2,25 +2,197 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AmiiboTracker Web</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body {
+      margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background: #1d1e2c; color: white;
+      display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .amiibo-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 960px;
+    }
+    .amiibo-card {
+      background: rgba(255 255 255 / 0.1);
+      border-radius: 14px;
+      padding: 12px;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.3s ease;
+    }
+    .amiibo-card:hover {
+      background: rgba(0 122 255 / 0.3);
+    }
+    .amiibo-card img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 8px;
+      border-radius: 10px;
+    }
+    .amiibo-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .amiibo-series {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+    /* Detail Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .modal {
+      background: #2a2e43;
+      border-radius: 14px;
+      max-width: 500px;
+      width: 90%;
+      padding: 24px;
+      color: white;
+      position: relative;
+    }
+    .modal img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .modal h2 {
+      margin-top: 0;
+      text-align: center;
+    }
+    .modal p {
+      font-size: 14px;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .modal .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>🎮 AmiiboTracker Web</h1>
-    <input type="text" id="searchInput" placeholder="Search Amiibos..." />
-    <button id="themeToggle">🌗 Toggle Theme</button>
-  </header>
+  <h1>AmiiboTracker Web</h1>
+  <div id="amiibo-list" class="amiibo-list"></div>
 
-  <main id="amiiboGrid">
-    <!-- Amiibo cards will be inserted here -->
-  </main>
+  <!-- Modal for detail -->
+  <div id="modal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <button class="close-btn" aria-label="Close">&times;</button>
+      <img id="modal-image" src="" alt="Amiibo Image" />
+      <h2 id="modal-name"></h2>
+      <p id="modal-series"></p>
+      <p id="modal-game"></p>
+      <p id="modal-description"></p>
+    </div>
+  </div>
 
-  <footer>
-    <p>Made with ❤️ by TIDYBEATS</p>
-  </footer>
+  <script>
+    const amiiboListEl = document.getElementById('amiibo-list');
+    const modal = document.getElementById('modal');
+    const modalImage = document.getElementById('modal-image');
+    const modalName = document.getElementById('modal-name');
+    const modalSeries = document.getElementById('modal-series');
+    const modalGame = document.getElementById('modal-game');
+    const modalDescription = document.getElementById('modal-description');
+    const modalCloseBtn = modal.querySelector('.close-btn');
 
-  <script src="js/app.js"></script>
+    // Fetch your JSON data from your GitHub raw URL
+    fetch('https://raw.githubusercontent.com/TIDYBEATS1/amiibotracker.github.io/main/web/games_info_compact.json')
+      .then(response => response.json())
+      .then(data => {
+        // data is an object, looks like this? Let's check
+        // if your JSON structure has top-level keys, adjust below accordingly
+        // For now, assume data is an array of amiibo objects directly
+        let amiibos = Array.isArray(data) ? data : Object.values(data);
+
+        // Show all amiibos
+        amiibos.forEach(amiibo => {
+          const card = document.createElement('div');
+          card.className = 'amiibo-card';
+          card.tabIndex = 0;
+          card.setAttribute('role', 'button');
+          card.setAttribute('aria-pressed', 'false');
+
+          card.innerHTML = `
+            <img src="${amiibo.image || ''}" alt="${amiibo.name} image" />
+            <div class="amiibo-name">${amiibo.name}</div>
+            <div class="amiibo-series">${amiibo.series || ''}</div>
+          `;
+
+          // Click event to open modal detail
+          card.addEventListener('click', () => openModal(amiibo));
+          card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              openModal(amiibo);
+            }
+          });
+
+          amiiboListEl.appendChild(card);
+        });
+      })
+      .catch(error => {
+        amiiboListEl.innerHTML = '<p style="color:red;">Failed to load Amiibo data.</p>';
+        console.error('Error loading JSON:', error);
+      });
+
+    function openModal(amiibo) {
+      modalImage.src = amiibo.image || '';
+      modalImage.alt = `${amiibo.name} image`;
+      modalName.textContent = amiibo.name || 'Unknown Amiibo';
+      modalSeries.textContent = `Series: ${amiibo.series || 'Unknown'}`;
+      modalGame.textContent = `Game: ${amiibo.game || 'Unknown'}`;
+      modalDescription.textContent = amiibo.description || '';
+      modal.style.display = 'flex';
+    }
+
+    modalCloseBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside modal content
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    // Close modal on ESC key press
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'flex') {
+        modal.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
