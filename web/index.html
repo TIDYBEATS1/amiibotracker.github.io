@@ -2,25 +2,134 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AmiiboTracker Web</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AmiiboTracker - Web Version</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #1d1e2c;
+      color: white;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #amiibo-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(140px,1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 900px;
+    }
+    .amiibo-card {
+      background: rgba(255 255 255 / 0.1);
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .amiibo-card:hover {
+      background: rgba(0 122 255 / 0.3);
+    }
+    #amiibo-detail {
+      max-width: 500px;
+      margin-top: 20px;
+      text-align: center;
+      display: none;
+    }
+    #amiibo-detail img {
+      max-width: 100%;
+      border-radius: 12px;
+    }
+    #back-button {
+      margin-bottom: 15px;
+      cursor: pointer;
+      background: #007aff;
+      border: none;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      box-shadow: 0 0 12px rgba(0,122,255,0.6);
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>🎮 AmiiboTracker Web</h1>
-    <input type="text" id="searchInput" placeholder="Search Amiibos..." />
-    <button id="themeToggle">🌗 Toggle Theme</button>
-  </header>
 
-  <main id="amiiboGrid">
-    <!-- Amiibo cards will be inserted here -->
-  </main>
+  <h1>AmiiboTracker - Web Version</h1>
 
-  <footer>
-    <p>Made with ❤️ by TIDYBEATS</p>
-  </footer>
+  <div id="amiibo-list"></div>
 
-  <script src="js/app.js"></script>
+  <div id="amiibo-detail">
+    <button id="back-button">← Back to List</button>
+    <div id="detail-content"></div>
+  </div>
+
+  <script>
+    // Example JSON data - replace or load from external file
+    const amiibos = [
+      {
+        "name": "Mario",
+        "image": "https://raw.githubusercontent.com/N3evin/AmiiboAPI/master/images/icon_00000000-00000002.png",
+        "series": "Super Mario",
+        "game": "Super Mario Odyssey",
+        "description": "Iconic plumber from Nintendo."
+      },
+      {
+        "name": "Link",
+        "image": "https://raw.githubusercontent.com/N3evin/AmiiboAPI/master/images/icon_00000000-00000004.png",
+        "series": "The Legend of Zelda",
+        "game": "Breath of the Wild",
+        "description": "Hero of Hyrule."
+      }
+    ];
+
+    const amiiboListEl = document.getElementById('amiibo-list');
+    const amiiboDetailEl = document.getElementById('amiibo-detail');
+    const detailContentEl = document.getElementById('detail-content');
+    const backButton = document.getElementById('back-button');
+
+    function showAmiiboList() {
+      amiiboDetailEl.style.display = 'none';
+      amiiboListEl.style.display = 'grid';
+      amiiboListEl.innerHTML = '';
+
+      amiibos.forEach((amiibo, index) => {
+        const card = document.createElement('div');
+        card.className = 'amiibo-card';
+        card.innerHTML = `
+          <img src="${amiibo.image}" alt="${amiibo.name}" width="100" />
+          <h3>${amiibo.name}</h3>
+          <p>${amiibo.series}</p>
+        `;
+        card.onclick = () => showAmiiboDetail(index);
+        amiiboListEl.appendChild(card);
+      });
+    }
+
+    function showAmiiboDetail(index) {
+      const amiibo = amiibos[index];
+      amiiboListEl.style.display = 'none';
+      amiiboDetailEl.style.display = 'block';
+
+      detailContentEl.innerHTML = `
+        <h2>${amiibo.name}</h2>
+        <img src="${amiibo.image}" alt="${amiibo.name}" />
+        <p><strong>Series:</strong> ${amiibo.series}</p>
+        <p><strong>Game:</strong> ${amiibo.game}</p>
+        <p>${amiibo.description}</p>
+      `;
+    }
+
+    backButton.onclick = () => {
+      showAmiiboList();
+    };
+
+    // Initialize list on page load
+    showAmiiboList();
+  </script>
+
 </body>
 </html>
