@@ -6,10 +6,15 @@
   <title>AmiiboTracker Web</title>
   <style>
     body {
-      margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      margin: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      background: #1d1e2c; color: white;
-      display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+      background: #1d1e2c; 
+      color: white;
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      min-height: 100vh;
       padding: 20px;
     }
     h1 {
@@ -29,9 +34,12 @@
       cursor: pointer;
       text-align: center;
       transition: background 0.3s ease;
+      outline: none;
     }
-    .amiibo-card:hover {
+    .amiibo-card:hover,
+    .amiibo-card:focus {
       background: rgba(0 122 255 / 0.3);
+      box-shadow: 0 0 8px #007aff;
     }
     .amiibo-card img {
       width: 80px;
@@ -67,6 +75,7 @@
       padding: 24px;
       color: white;
       position: relative;
+      text-align: center;
     }
     .modal img {
       width: 120px;
@@ -80,13 +89,11 @@
     }
     .modal h2 {
       margin-top: 0;
-      text-align: center;
     }
     .modal p {
       font-size: 14px;
       line-height: 1.4;
       margin-bottom: 12px;
-      text-align: center;
     }
     .modal .close-btn {
       position: absolute;
@@ -95,19 +102,21 @@
       background: transparent;
       border: none;
       color: white;
-      font-size: 24px;
+      font-size: 28px;
       cursor: pointer;
+      font-weight: bold;
+      line-height: 1;
     }
   </style>
 </head>
 <body>
   <h1>AmiiboTracker Web</h1>
-  <div id="amiibo-list" class="amiibo-list"></div>
+  <div id="amiibo-list" class="amiibo-list" aria-live="polite" aria-label="Amiibo List"></div>
 
   <!-- Modal for detail -->
-  <div id="modal" class="modal-overlay" style="display:none;">
+  <div id="modal" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="modal-name" tabindex="-1">
     <div class="modal">
-      <button class="close-btn" aria-label="Close">&times;</button>
+      <button class="close-btn" aria-label="Close modal">&times;</button>
       <img id="modal-image" src="" alt="Amiibo Image" />
       <h2 id="modal-name"></h2>
       <p id="modal-series"></p>
@@ -117,85 +126,81 @@
   </div>
 
   <script>
-const amiiboListEl = document.getElementById('amiibo-list');
-const modal = document.getElementById('modal');
-const modalImage = document.getElementById('modal-image');
-const modalName = document.getElementById('modal-name');
-const modalSeries = document.getElementById('modal-series');
-const modalGame = document.getElementById('modal-game');
-const modalDescription = document.getElementById('modal-description');
-const modalCloseBtn = modal.querySelector('.close-btn');
+    const amiiboListEl = document.getElementById('amiibo-list');
+    const modal = document.getElementById('modal');
+    const modalImage = document.getElementById('modal-image');
+    const modalName = document.getElementById('modal-name');
+    const modalSeries = document.getElementById('modal-series');
+    const modalGame = document.getElementById('modal-game');
+    const modalDescription = document.getElementById('modal-description');
+    const modalCloseBtn = modal.querySelector('.close-btn');
 
-// Fetch your JSON data from GitHub Pages URL (with proper CORS)
-fetch('https://tidybeats1.github.io/amiibotracker.github.io/web/games_info_compact.json')
-  .then(response => {
-    if (!response.ok) throw new Error('Network response was not OK');
-    return response.json();
-  })
-  .then(data => {
-    console.log('Loaded data:', data);
+    // Fetch your JSON data from GitHub raw URL (CORS-friendly)
+    fetch('https://raw.githubusercontent.com/TIDYBEATS1/amiibotracker.github.io/main/web/games_info_compact.json')
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not OK');
+        return response.json();
+      })
+      .then(data => {
+        // data is an array of amiibo objects
+        data.forEach(amiibo => {
+          const card = document.createElement('div');
+          card.className = 'amiibo-card';
+          card.tabIndex = 0; // make focusable for accessibility
+          card.setAttribute('role', 'button');
+          card.setAttribute('aria-pressed', 'false');
 
-    // Clear previous content (if any)
-    amiiboListEl.innerHTML = '';
+          card.innerHTML = `
+            <img src="${amiibo.image || ''}" alt="${amiibo.name} image" />
+            <div class="amiibo-name">${amiibo.name}</div>
+            <div class="amiibo-series">${amiibo.series || ''}</div>
+          `;
 
-    // Loop over each amiibo object and create cards
-    data.forEach(amiibo => {
-      const card = document.createElement('div');
-      card.className = 'amiibo-card';
-      card.tabIndex = 0;
-      card.setAttribute('role', 'button');
-      card.setAttribute('aria-pressed', 'false');
+          // Open modal on click or keyboard enter/space
+          card.addEventListener('click', () => openModal(amiibo));
+          card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              openModal(amiibo);
+            }
+          });
 
-      card.innerHTML = `
-        <img src="${amiibo.image || ''}" alt="${amiibo.name} image" />
-        <div class="amiibo-name">${amiibo.name}</div>
-        <div class="amiibo-series">${amiibo.series || ''}</div>
-      `;
-
-      // Click event to open modal detail
-      card.addEventListener('click', () => openModal(amiibo));
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          openModal(amiibo);
-        }
+          amiiboListEl.appendChild(card);
+        });
+      })
+      .catch(error => {
+        console.error('Fetch error:', error);
+        amiiboListEl.innerHTML = '<p style="color:red;">Failed to load Amiibo data.</p>';
       });
 
-      amiiboListEl.appendChild(card);
+    function openModal(amiibo) {
+      modalImage.src = amiibo.image || '';
+      modalImage.alt = `${amiibo.name} image`;
+      modalName.textContent = amiibo.name || 'Unknown Amiibo';
+      modalSeries.textContent = `Series: ${amiibo.series || 'Unknown'}`;
+      modalGame.textContent = `Game: ${amiibo.game || 'Unknown'}`;
+      modalDescription.textContent = amiibo.description || 'No description available.';
+      modal.style.display = 'flex';
+      modal.focus();
+    }
+
+    modalCloseBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
     });
-  })
-  .catch(error => {
-    console.error('Fetch error:', error);
-    amiiboListEl.innerHTML = '<p style="color:red;">Failed to load Amiibo data.</p>';
-  });
 
-function openModal(amiibo) {
-  modalImage.src = amiibo.image || '';
-  modalImage.alt = `${amiibo.name} image`;
-  modalName.textContent = amiibo.name || 'Unknown Amiibo';
-  modalSeries.textContent = `Series: ${amiibo.series || 'Unknown'}`;
-  modalGame.textContent = `Game: ${amiibo.game || 'Unknown'}`;
-  modalDescription.textContent = amiibo.description || '';
-  modal.style.display = 'flex';
-}
+    // Close modal when clicking outside modal content
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
 
-modalCloseBtn.addEventListener('click', () => {
-  modal.style.display = 'none';
-});
-
-// Close modal when clicking outside modal content
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    modal.style.display = 'none';
-  }
-});
-
-// Close modal on ESC key press
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && modal.style.display === 'flex') {
-    modal.style.display = 'none';
-  }
-});
+    // Close modal on ESC key press
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'flex') {
+        modal.style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>
