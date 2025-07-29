@@ -3,59 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FigureDex</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #111;
-            color: #eee;
-            text-align: center;
-        }
-        .container {
-            max-width: 600px;
-            padding: 2rem;
-        }
-        h1 {
-            font-size: 3rem;
-        }
-        p {
-            font-size: 1.2rem;
-            color: #aaa;
-        }
-        nav {
-            margin-top: 2rem;
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-        a {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            background-color: #e60012;
-            color: white;
-            text-decoration: none;
-            border-radius: 0.5rem;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        a:hover {
-            background-color: #c40010;
-        }
-    </style>
+    <title>FigureDex - Your Amiibo Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to FigureDex</h1>
-        <p>Your ultimate companion for tracking your Amiibo collection. Never miss a figure again!</p>
-        <nav>
-            <a href="/all">Browse All Figures</a>
-            <a href="/categories">Browse Categories</a>
-        </nav>
+        <header>
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Z"></path>
+                    <path d="M12 18a6 6 0 1 1 6-6 6 6 0 0 1-6 6z"></path>
+                    <path d="M12 12a4 4 0 1 1-4-4 4 4 0 0 1 4 4z"></path>
+                </svg>
+                <h1>FigureDex</h1>
+            </div>
+            <nav>
+                <a href="/all">All Amiibo</a>
+                <a href="/categories">Categories</a>
+                <a href="/login" class="login-button">Login</a>
+            </nav>
+        </header>
+        <main>
+            <div class="hero">
+                <h2>Welcome to FigureDex</h2>
+                <p>The ultimate companion for tracking your Amiibo collection. Browse, manage, and discover every figure with ease.</p>
+                <div class="cta-buttons">
+                    <a href="/all" class="button button-primary">Browse All Figures</a>
+                    <a href="/categories" class="button button-secondary">View by Series</a>
+                </div>
+            </div>
+        </main>
     </div>
 </body>
 </html>
