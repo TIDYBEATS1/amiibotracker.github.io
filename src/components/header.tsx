@@ -30,7 +30,7 @@ export function Header({
   const isLoginPage = pathname === '/login';
   const isHomePage = pathname === '/';
   const isCategoriesPage = pathname === '/categories';
-  const showSearch = !isLoginPage && !isHomePage && !isCategoriesPage && onSearchChange && typeof searchQuery !== 'undefined';
+  const showSearch = !isLoginPage && !isCategoriesPage && onSearchChange && typeof searchQuery !== 'undefined';
 
 
   const navLinkClasses = (href: string) =>
@@ -47,8 +47,7 @@ export function Header({
           <h1 className="text-lg font-bold tracking-tight font-headline">FigureDex</h1>
         </Link>
         <nav className="hidden md:flex items-center space-x-6">
-          <Link href="/" className={navLinkClasses("/")}>Home</Link>
-          <Link href="/all" className={navLinkClasses("/all")}>All Amiibo</Link>
+          <Link href="/" className={navLinkClasses("/")}>All Amiibo</Link>
           <Link href="/categories" className={navLinkClasses("/categories")}>Categories</Link>
         </nav>
         <div className="flex flex-1 items-center justify-end space-x-4">
@@ -92,7 +91,7 @@ export function Header({
             )}
         </div>
       </div>
-      {!isLoginPage && !isHomePage && !isCategoriesPage && (
+      {!isLoginPage && !isCategoriesPage && (
         <div className="container max-w-screen-2xl">
           <div className="text-sm text-muted-foreground pb-2 flex gap-4">
               <span>Total: <strong>{totalCount}</strong></span>

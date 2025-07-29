@@ -22,8 +22,6 @@ export function FigureDexClient({ amiibos }: FigureDexClientProps) {
   
   // TODO: Replace with real authentication state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const pathname = usePathname();
-  const isHomePage = pathname === '/';
 
   useEffect(() => {
     setIsMounted(true);

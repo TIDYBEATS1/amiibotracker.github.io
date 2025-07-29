@@ -1,0 +1,136 @@
+/* General Body Styles */
+body {
+    background-color: #111114; /* dark background */
+    color: #f0f2f5; /* light text */
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #333;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #f0f2f5;
+}
+
+.logo svg {
+    color: #e50914; /* Primary color */
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+nav a {
+    color: #a0a0a0;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+}
+
+nav a:hover {
+    color: #e50914;
+}
+
+nav a.login-button {
+    background-color: #e50914;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+}
+
+nav a.login-button:hover {
+    background-color: #c40812;
+}
+
+/* Main Content & Hero Section */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: calc(100vh - 80px); /* Adjust based on header height */
+}
+
+.hero h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.125rem;
+    color: #a0a0a0;
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+}
+
+/* Buttons */
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+.button-primary {
+    background-color: #e50914;
+    color: white;
+}
+
+.button-primary:hover {
+    background-color: #c40812;
+}
+
+.button-secondary {
+    background-color: transparent;
+    color: #f0f2f5;
+    border: 1px solid #333;
+}
+
+.button-secondary:hover {
+    background-color: #222;
+    border-color: #444;
+}
