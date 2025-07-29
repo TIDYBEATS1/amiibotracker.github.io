@@ -1,0 +1,163 @@
+{
+    "amiibos": {
+        "0x0000000000000002": {
+            "games": {
+                "3DS": [
+                    {
+                        "name": "Ace Combat Assault Horizon Legacy+",
+                        "usage": "Unlock a character-themed aircraft early, plus a bonus skin and tuning part"
+                    },
+                    {
+                        "name": "Chibi-Robo! Zip Lash",
+                        "usage": "Unlock figure in the pose of the character (requires Chibi-Robo amiibo)"
+                    },
+                    {
+                        "name": "Kirby: Planet Robobot",
+                        "usage": "Give Kirby a Copy ability based on the character's abilities and a health item"
+                    },
+                    {
+                        "name": "Luigi's Mansion",
+                        "usage": "Mushrooms you find will be health-restoring Super Mushrooms instead of Poison Mushrooms"
+                    },
+                    {
+                        "name": "Mario & Luigi: Bowser's Inside Story + Bowser Jr.'s Journey",
+                        "usage": "Receive a helpful item"
+                    },
+                    {
+                        "name": "Mario & Luigi: Paper Jam",
+                        "usage": "Unlock character cards to help you in battle"
+                    },
+                    {
+                        "name": "Mario & Luigi: Superstar Saga + Bowser's Minions",
+                        "usage": "Receive a stamp and equipment for the main quest"
+                    },
+                    {
+                        "name": "Mario & Sonic at the Rio 2016 Olympic Games",
+                        "usage": "Boost power of the Mario Mii suit for the day"
+                    },
+                    {
+                        "name": "Mario Party: Star Rush",
+                        "usage": "Play as or receive bonus from this character, depending on the mode"
+                    },
+                    {
+                        "name": "Mario Party: The Top 100",
+                        "usage": "Minigame Island: If you land on an amiibo space, use to receive coins / Use to revive your character once"
+                    },
+                    {
+                        "name": "Metroid Prime: Blast Ball",
+                        "usage": "Unlock an armor paint job based on the character"
+                    },
+                    {
+                        "name": "Metroid Prime: Federation Force",
+                        "usage": "Unlock an armor paint job based on the character for use in Blast Ball"
+                    },
+                    {
+                        "name": "Miitopia",
+                        "usage": "Unlock a character-based costume"
+                    },
+                    {
+                        "name": "Mini Mario & Friends amiibo Challenge",
+                        "usage": "Play stages as a Mini version of this character, with a unique special ability, and unlock character-specific stages"
+                    },
+                    {
+                        "name": "One Piece: Super Grand Battle! X",
+                        "usage": "Unlock a character-based costume with special abilities"
+                    },
+                    {
+                        "name": "Picross 3D Round 2",
+                        "usage": "Unlock a character-based puzzle"
+                    },
+                    {
+                        "name": "Style Savvy: Fashion Forward",
+                        "usage": "Unlock a character-themed accessory"
+                    },
+                    {
+                        "name": "Style Savvy: Styling Star",
+                        "usage": "Unlock a character-themed pattern"
+                    },
+                    {
+                        "name": "Super Smash Bros. for Nintendo 3DS",
+                        "usage": "Battle and train up a computer-controlled Figure Player of the character"
+                    },
+                    {
+                        "name": "WarioWare Gold",
+                        "usage": "Receive a sketch of the character from Wario which can be exchanged for in-game coins"
+                    },
+                    {
+                        "name": "Yoshi's Woolly World",
+                        "usage": "Unlock a character-based Yoshi yarn pattern"
+                    }
+                ],
+                "WiiU": [
+                    {
+                        "name": "Mario & Sonic at the Rio 2016 Olympic Games",
+                        "usage": "Play the Mario League, for a chance to unlock the Mario Mii costume"
+                    },
+                    {
+                        "name": "Mario Kart 8",
+                        "usage": "Unlock a character-themed Mii racing suit"
+                    },
+                    {
+                        "name": "Mario Party 10",
+                        "usage": "Use as game piece in amiibo Party / Customize game board in amiibo Party"
+                    },
+                    {
+                        "name": "Mario Tennis: Ultra Smash",
+                        "usage": "Play alongside and train up a computer-controlled character"
+                    },
+                    {
+                        "name": "Mini Mario & Friends amiibo Challenge",
+                        "usage": "Play stages as a Mini version of this character, with a unique special ability, and unlock character-specific stages"
+                    },
+                    {
+                        "name": "Super Mario Maker",
+                        "usage": "Unlock a character-based Mystery Mushroom costume"
+                    },
+                    {
+                        "name": "Super Smash Bros. for Wii U",
+                        "usage": "Battle and train up a computer-controlled Figure Player of the character"
+                    },
+                    {
+                        "name": "Yoshi's Woolly World",
+                        "usage": "Unlock a character-based Yoshi yarn pattern"
+                    }
+                ],
+                "Switch": [
+                    {
+                        "name": "Mario + Rabbids: Kingdom Battle",
+                        "usage": "Unlock an amiibo-exclusive weapon for the character and their Rabbid counterpart"
+                    },
+                    {
+                        "name": "Mario Kart 8 Deluxe",
+                        "usage": "Unlock a character-themed Mii racing suit"
+                    },
+                    {
+                        "name": "Miitopia",
+                        "usage": "Unlock a character-based costume"
+                    },
+                    {
+                        "name": "Super Mario 3D World + Bowser's Fury",
+                        "usage": "Receive a particular power-up depending on the character"
+                    },
+                    {
+                        "name": "Super Mario Odyssey",
+                        "usage": "Receive a character-based costume / Gain temporary invincibility"
+                    },
+                    {
+                        "name": "Super Mario Party",
+                        "usage": "Unlock the character's shiny sticker"
+                    },
+                    {
+                        "name": "Super Smash Bros. Ultimate",
+                        "usage": "Battle and train up a computer-controlled Figure Player of the character"
+                    },
+                    {
+                        "name": "Yoshi's Crafted World",
+                        "usage": "Unlock a character-based costume"
+                    }
+                ]
+            },
+            "hasGames": true
+        }
+    }
+}
