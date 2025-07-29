@@ -1,23 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FigureDex</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #111;
-      color: #eee;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FigureDex</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #111;
+            color: #eee;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            padding: 2rem;
+        }
+        h1 {
+            font-size: 3rem;
+        }
+        p {
+            font-size: 1.2rem;
+            color: #aaa;
+        }
+        nav {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        a {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: #e60012;
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        a:hover {
+            background-color: #c40010;
+        }
+    </style>
 </head>
 <body>
-  <h1>Welcome to FigureDex</h1>
+    <div class="container">
+        <h1>Welcome to FigureDex</h1>
+        <p>Your ultimate companion for tracking your Amiibo collection. Never miss a figure again!</p>
+        <nav>
+            <a href="/all">Browse All Figures</a>
+            <a href="/categories">Browse Categories</a>
+        </nav>
+    </div>
 </body>
 </html>
